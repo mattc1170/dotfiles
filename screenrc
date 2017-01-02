@@ -1,0 +1,10 @@
+startup_message off
+autodetach on
+defscrollback 10000
+nonblock on
+
+#caption always "%{+b rk}%H%{gk} |%c %{yk}%d.%m.%Y | %72=Load: %l %{wk}"
+caption always "%{+u ck}                                                                                                "
+#hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
+hardstatus alwayslastline "%?%{kg}%-Lw%?%{ky}%n*%f %t%?(%u)%?%?%{kg}%+Lw%?"
+
