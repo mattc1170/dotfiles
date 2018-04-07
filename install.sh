@@ -27,7 +27,7 @@ else
         mv ~/.zshrc ~/.zshrc.bak
     fi
 fi
-ln -s $PWD/.zshrc ~/zshrc
+ln -s $PWD/zshrc ~/.zshrc
 
 echo "Linking  .emacs to ~"
 if [ -h ~/.emacs ]; then
@@ -39,7 +39,7 @@ else
         mv ~/.emacs ~/.emacs.bak
     fi
 fi
-ln -s $PWD/.emacs ~/.emacs
+ln -s $PWD/emacs ~/.emacs
 
 cd ~/.emacs.d/lisp/
 echo "Installing extra elisp files"
@@ -58,6 +58,7 @@ else
     echo "File guess-offset.el already installed"
 fi
 
+mkdir -p ~/.emacs.d/themes
 cd ~/.emacs.d/themes/
 if [ ! -f zenburn-theme.el ]; then
     echo "Fetching zenburn-theme.el"
