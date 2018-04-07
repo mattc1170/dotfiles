@@ -183,16 +183,16 @@
 (setq ediff-keep-variants "nil")
 (setq ediff-split-window-function 'split-window-horizontally)
 
-(require 'simplenote2)
-(setq simplenote2-email "mattcrane@fastmail.com")
-(setq simplenote2-password "bigben87")
-(simplenote2-setup)
+;(require 'simplenote2)
+;(setq simplenote2-email "mattcrane@fastmail.com")
+;(setq simplenote2-password "bigben87")
+;(simplenote2-setup)
 
-(require 'deft)
+;(require 'deft)
 
 ;; SLIME Common Lisp development environment
-(setq inferior-lisp-program "sbcl")
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;(setq inferior-lisp-program "sbcl")
+;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
 ;; Org
 (require 'org-install)
