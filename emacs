@@ -143,7 +143,8 @@
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;; Useful subversion stuff
-(require 'psvn)
+; Comment out psvn until it is automatically installed by startup scripts
+;(require 'psvn)
 
 ;; Make dired suck a lot less
 (require 'dired-single)
