@@ -37,7 +37,7 @@
   (menu-bar-mode 0))
 
 (tool-bar-mode 0)
-;;(scroll-bar-mode 0)
+(scroll-bar-mode 0)
 
 ;; turn on font-lock mode
 (when (fboundp 'global-font-lock-mode)
@@ -143,7 +143,7 @@
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;; Useful subversion stuff
-(require 'psvn)
+;; (require 'psvn)
 
 ;; Make dired suck a lot less
 (require 'dired-single)
