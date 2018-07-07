@@ -29,6 +29,18 @@ else
 fi
 ln -s $PWD/zshrc ~/.zshrc
 
+echo "Linking git .screenrc to ~"
+if [ -h ~/.screenrc ]; then
+    echo "Removing existing ~/.screenrc link"
+    /bin/rm ~/.screenrc
+else
+    if [ -f ~/.screenrc ]; then
+        echo "Moving existing ~/.screenrc to .screenrc.bak"
+        mv ~/.screenrc ~/.screenrc.bak
+    fi
+fi
+ln -s $PWD/screenrc ~/.screenrc
+
 echo "Linking  .emacs to ~"
 if [ -h ~/.emacs ]; then
     echo "Removing existing ~/.emacs link"
