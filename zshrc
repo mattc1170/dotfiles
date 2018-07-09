@@ -206,7 +206,7 @@ setopt COMPLETE_IN_WORD
 
 export LS_OPTIONS="--color --group-directories-first"
 export EDITOR="/usr/bin/emacsclient -t -a ''"
-export VISUAL="/usr/bin/emacsclient -c -a ''"
+export VISUAL=$EDITOR
 
 # Aliases
 alias ls="/bin/ls $LS_OPTIONS"
@@ -216,11 +216,12 @@ alias dv="dirs -v"
 alias cld="dirs .; popd"
 alias t="~/bin/todo.sh"
 
-# Moved these to .localshrc because of XLIB_SKIP_ARGB_VISUALS issues on Elemenary Freya
-#alias e="/usr/bin/emacsclient -c -n -a ''"
-#alias et="/usr/bin/emacsclient -t -a ''"
-#alias ek=="/usr/bin/emacsclient -e '(shutdown-emacs-server)'"
-#alias ee="/usr/bin/emacsclient -n"
+# Useful emacs aliases
+alias e="/usr/bin/emacsclient -c -n -a ''"
+alias et="/usr/bin/emacsclient -t -a ''"
+alias ek="/usr/bin/emacsclient -e '(shutdown-emacs-server)'"
+alias ee="/usr/bin/emacsclient -n"
+alias ediff="~/bin/ediff.sh"
 
 if [[ -f ~/.localshrc ]]; then
     source ~/.localshrc
@@ -235,6 +236,7 @@ setopt auto_cd
 setopt auto_menu
 
 export DIRSTACKSIZE=5
-# cdpath=( /home/matt )
+export PATH=$PATH:~/.local/bin:~/bin
+
 
 
