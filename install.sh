@@ -29,6 +29,18 @@ else
 fi
 ln -s $PWD/zshrc ~/.zshrc
 
+echo "Linking git .p10k.zsh to ~"
+if [ -h ~/.p10k.zsh ]; then
+    echo "Removing existing ~/.p10k.zsh link"
+    /bin/rm ~/.p10k.zsh
+else
+    if [ -f ~/.p10k.zsh ]; then
+        echo "Moving existing ~/.p10k.zsh to .p10k.zsh.bak"
+        mv ~/.p10k.zsh ~/.p10k.zsh.bak
+    fi
+fi
+ln -s $PWD/p10k.zsh ~/.p10k.zsh
+
 echo "Linking git .screenrc to ~"
 if [ -h ~/.screenrc ]; then
     echo "Removing existing ~/.screenrc link"

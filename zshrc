@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #
 # .zshrc is sourced in interactive shells.
 # It should contain commands to set up aliases,
@@ -5,28 +12,30 @@
 #
 
 ### -- Prompt code copied from crazy zsh prompt web page --
-function precmd {
 
-    local TERMWIDTH
-    (( TERMWIDTH = ${COLUMNS} - 1 ))
+# http://aperiodic.net/phil/prompt/
+# function precmd {
+
+#     local TERMWIDTH
+#     (( TERMWIDTH = ${COLUMNS} - 1 ))
 
 
-    ###
-    # Truncate the path if it's too long.
     
-    PR_FILLBAR=""
-    PR_PWDLEN=""
+#     # Truncate the path if it's too long.
     
-    local promptsize=${#${(%):---(%n@%m:%l)---()--}}
-    local pwdsize=${#${(%):-%~}}
+#     PR_FILLBAR=""
+#     PR_PWDLEN=""
     
-    if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
-	    ((PR_PWDLEN=$TERMWIDTH - $promptsize))
-    else
-	PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_HBAR}.)}"
-    fi
+#     local promptsize=${#${(%):---(%n@%m:%l)---()--}}
+#     local pwdsize=${#${(%):-%~}}
+    
+#     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
+# 	    ((PR_PWDLEN=$TERMWIDTH - $promptsize))
+#     else
+# 	PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_HBAR}.)}"
+#     fi
 
-}
+# }
 
 
 setopt extended_glob
@@ -38,7 +47,7 @@ preexec () {
     fi
 }
 
-
+# http://aperiodic.net/phil/prompt/
 setprompt () {
     ###
     # Need this so the prompt will work.
@@ -155,18 +164,18 @@ $PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 }
 
-echo "Terminal is $TERM"
+# echo "Terminal is $TERM"
 
-if [[ $TERM = "dumb" || $TERM = "vt100" ]]; then
-    unsetopt zle
-    unsetopt prompt_cr
-    unsetopt prompt_subst
-    unfunction precmd
-    unfunction preexec
-    PS1="$ "
-else
-    setprompt
-fi
+# if [[ $TERM = "dumb" || $TERM = "vt100" ]]; then
+#     unsetopt zle
+#     unsetopt prompt_cr
+#     unsetopt prompt_subst
+#     unfunction precmd
+#     unfunction preexec
+#     PS1="$ "
+# else
+#     setprompt
+# fi
 
 ### -- End of prompt code for crazy zsh prompt
 
@@ -239,4 +248,8 @@ export DIRSTACKSIZE=5
 export PATH=$PATH:~/.local/bin:~/bin
 
 
+# Powerlevel10k prompt theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
