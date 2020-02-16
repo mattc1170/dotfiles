@@ -78,6 +78,12 @@ if [ ! -f zenburn-theme.el ]; then
 else	
     echo "File zenburn.el already installed"
 fi
+if [ ! -f atom-one-dark-theme.el ]; then
+    echo "Fetching atom-one-dark-theme.el"
+    wget https://raw.githubusercontent.com/jonathanchu/atom-one-dark-theme/master/atom-one-dark-theme.el
+else	
+    echo "File atom-one-dark-theme.el already installed"
+fi
 
 # echo "Linking bin scripts to ~/bin"
 # cd ${basedir}/bin
