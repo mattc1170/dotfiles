@@ -53,6 +53,11 @@ else
 fi
 ln -s $PWD/screenrc ~/.screenrc
 
+echo "Installing Powerlevel10k zsh theme"
+if [ -d ~/powerlevel10k ]; then
+    echo "Moving existing ~/powerlevel10k to ~/powerlevel10k.bak"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+
 echo "Linking  .emacs to ~"
 if [ -h ~/.emacs ]; then
     echo "Removing existing ~/.emacs link"
