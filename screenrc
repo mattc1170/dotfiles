@@ -12,6 +12,8 @@ select 1
 escape ^Jj
 
 #caption always "%{+b rk}%H%{gk} |%c %{yk}%d.%m.%Y | %72=Load: %l %{wk}"
-caption always "%{+u ck}                                                                                                "
+#caption always "%{+u ck}"                                                                                                "
 #hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
-hardstatus alwayslastline "%?%{kg}%-Lw%?%{ky}%n*%f %t%?(%u)%?%?%{kg}%+Lw%?"
+#hardstatus alwayslastline "%?%{kg}%-Lw%?%{ky}%n*%f %t%?(%u)%?%?%{kg}%+Lw%?"
+hardstatus alwayslastline "%{b kw}%H %{r}%1` %{w}| %{g}%c %{w}| %{y}%m/%d/%Y %{w}| %{g}%l %{w}| %{-b kw}%u %-Lw%{= b}%50> %n%f %t %{-}%+Lw%<"
+
