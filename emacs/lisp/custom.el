@@ -6,4 +6,4 @@
 ;; idiosyncracies.
 
 ;; local-linux-font :  Which font looks best for the environment.
-(setq local-linux-font "Monospace-9")
+(setq local-linux-font "Monospace-10")

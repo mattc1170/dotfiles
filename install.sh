@@ -2,20 +2,17 @@
 
 basedir=$PWD
 
-echo "Creating ~/.emacs.d/lisp directory"
-mkdir -p ~/.emacs.d/lisp
-
-echo "Installing custom.el"
-if [ -f ~/.emacs.d/lisp/custom.el -a ! -h ~/.emacs.d/lisp/custom.el ]; then
-    echo "Moving existing ~/.emacs.d/lisp/custom.el to custom.el.bak"
-    mv ~/.emacs.d/lisp/custom.el ~/.emacs.d/lisp/custom.el.bak
+echo "Linking git emacs dir to ~/.emacs.d"
+if [ -h ~/.emacs.d ]; then
+    echo "Removing existing ~/.emacs.d link"
+    /bin/rm ~/.emacs.d
+else
+    if [ -d ~/.emacs.d ]; then
+        echo "Moving existing ~/.emacs.d to .emacs.d.bak"
+        mv ~/.emacs.d ~/.emacs.d.bak
+    fi
 fi
-cp $PWD/custom.el ~/.emacs.d/lisp
-
-if [ ! -f ~/.emacs.d/lisp/local.el ]; then
-    echo "Creating empty local.el"
-    touch ~/.emacs.d/lisp/local.el
-fi
+ln -s $PWD/emacs ~/.emacs.d
 
 echo "Linking git .zshrc to ~"
 if [ -h ~/.zshrc ]; then
