@@ -6,11 +6,11 @@
 
 ;; Load my color theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(setq zenburn-override-colors-alist
-      '(("zenburn-bg" . "#383838")))
-;;(load-theme 'zenburn t)
 (load-theme 'atom-one-dark t)
 (add-to-list 'default-frame-alist '(cursor-color . "orange"))
+;;(setq zenburn-override-colors-alist
+;;      '(("zenburn-bg" . "#383838")))
+;;(load-theme 'zenburn t)
 
 ;; MELPA packages
 (require 'package)
@@ -18,6 +18,7 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+;; Windows variables
 (if (string-equal system-type "windows-nt")
     (progn
       ;; set the executable path to use gnu-win32 stuff supplied by EmacsW32
@@ -27,6 +28,7 @@
 )
 
 
+;; Set up local Linux font
 (if (or (string-equal system-type "gnu/linux")
 	(string-equal system-type "linux"))
     (progn
@@ -114,6 +116,14 @@
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
 
+(require 'use-package)
+
+(use-package ace-window
+  :bind ("M-o" . ace-window)
+  :delight
+  :config (ace-window-display-mode 1))
+
+(use-package magit)
 
 ;; My personal keybindings
 
@@ -272,9 +282,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (rtags json-mode)))
  '(delete-selection-mode nil)
- '(package-selected-packages (quote (magit))))
+ '(package-selected-packages (quote (use-package ace-window magit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
