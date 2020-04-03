@@ -1,8 +1,10 @@
+;; A few required variables defined with reasonable defaults.
+;; Override them in local.el
+(setq local-linux-font "Monospace-9")
+
 (setq load-path (append (list nil "~/.emacs.d/lisp") load-path ))
 (load "functions")
-(load "custom")
-(load "local")
-;;(setq load-path (append (list nil "~/src/org-7.8.03/lisp") load-path ))
+(load "local" t)
 
 ;; Load my color theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
