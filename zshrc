@@ -69,11 +69,12 @@ alias cld="dirs .; popd"
 alias t="~/bin/todo.sh"
 
 # Useful emacs aliases
-alias e="/usr/bin/emacsclient -c -n -a ''"
-alias et="/usr/bin/emacsclient -t -a ''"
-alias ek="/usr/bin/emacsclient -e '(shutdown-emacs-server)'"
-alias ee="/usr/bin/emacsclient -n"
+alias e="emacsclient -c -n -a ''"
+alias et="emacsclient -t -a ''"
+alias ek="emacsclient -e '(shutdown-emacs-server)'"
+alias ee="emacsclient -n"
 alias ediff="~/bin/ediff.sh"
+alias ssh-keygen="noglob ssh-keygen"
 
 if [[ -f ~/.localshrc ]]; then
     source ~/.localshrc
