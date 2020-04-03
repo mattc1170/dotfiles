@@ -17,6 +17,11 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
+(package-refresh-contents)
+
+(dolist (package '(use-package))
+  (unless (package-installed-p package)
+    (package-install package)))
 
 ;; Windows variables
 (if (string-equal system-type "windows-nt")
@@ -80,7 +85,6 @@
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;; Make dired suck a lot less
-(require 'dired-single)
 ;; if dired's already loaded, then the keymap will be bound
 (if (boundp 'dired-mode-map)
     ;; we're good to go; just add our bindings
@@ -119,32 +123,20 @@
 (require 'use-package)
 
 (use-package ace-window
-  :bind ("M-o" . ace-window)
-  :delight
-  :config (ace-window-display-mode 1))
+	     :ensure t
+	     :bind ("M-o" . ace-window)
+	     :delight
+	     :config (ace-window-display-mode 1))
 
-(use-package magit)
+(use-package magit
+	     :ensure t)
+
+(use-package dired-single
+	     :ensure t)
 
 ;; My personal keybindings
 
-(global-set-key (kbd "<C-tab>") 'other-window)
-(global-set-key (kbd "<C-S-tab>")  'other-window-backward)
-
-(global-set-key (kbd "C-.") 'double-wide)
-(global-set-key (kbd "C-,") 'single-wide)
-
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
-
-(global-set-key (kbd "M-a") 'beginning-of-buffer)
-(global-set-key (kbd "M-e") 'end-of-buffer)
-(global-set-key (kbd "M-j") 'backward-char)
-(global-set-key (kbd "M-l") 'forward-char)
-(global-set-key (kbd "M-k") 'next-line)
-(global-set-key (kbd "M-i") 'previous-line)
-(global-set-key (kbd "M-h") 'beginning-of-line)
-(global-set-key (kbd "M-;") 'end-of-line)
-(global-set-key (kbd "M-n") 'scroll-up-nomark)
-(global-set-key (kbd "M-p") 'scroll-down-nomark)
 
 (global-set-key [f5] 'query-replace)
 ;(global-set-key [f6] ')
