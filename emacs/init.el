@@ -10,20 +10,6 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'atom-one-dark t)
 (add-to-list 'default-frame-alist '(cursor-color . "orange"))
-;;(setq zenburn-override-colors-alist
-;;      '(("zenburn-bg" . "#383838")))
-;;(load-theme 'zenburn t)
-
-;; MELPA packages
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-(package-refresh-contents)
-
-(dolist (package '(use-package))
-  (unless (package-installed-p package)
-    (package-install package)))
 
 ;; Windows variables
 (if (string-equal system-type "windows-nt")
@@ -33,7 +19,6 @@
       (setenv "PATH" "C:/Program Files/Emacs/EmacsW32/gnuwin32/bin")
       (add-to-list 'default-frame-alist '(font . "Lucida Console-8")))
 )
-
 
 ;; Set up local Linux font
 (if (or (string-equal system-type "gnu/linux")
@@ -58,9 +43,9 @@
   (global-font-lock-mode t))
 
 ;; ido completion
-(require 'ido)
-(ido-mode 'buffer)
-(setq ido-save-directory-list-file "~/.emacs.d/.ido.last")
+;; (require 'ido)
+;; (ido-mode 'buffer)
+;; (setq ido-save-directory-list-file "~/.emacs.d/.ido.last")
 
 ;; default to better frame titles
 (setq frame-title-format
@@ -103,8 +88,10 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
-(require 'org-install)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'org)
 (setq org-directory "~/Notes")
 (setq org-startup-indented 't)
 (setq org-default-notes-file (concat org-directory "/notes.org"))
@@ -117,26 +104,43 @@
 	 "* %?\nEntered on %U\n %i\n %a")
 	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
 	 "* [[~/code_review/%f]] %t :code_review:\n %^{Reviewer}p")))
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/org/flagged.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
 
-(require 'use-package)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MELPA packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(package-refresh-contents)
+
+(dolist (package '(use-package))
+  (unless (package-installed-p package)
+    (package-install package)))
 
 (use-package ace-window
-	     :ensure t
-	     :bind ("M-o" . ace-window)
-	     :delight
-	     :config (ace-window-display-mode 1))
+  :ensure t
+  :bind ("M-o" . ace-window)
+  :delight
+  :config
+  (ace-window-display-mode 1))
 
 (use-package magit
-	     :ensure t)
+  :ensure t)
 
 (use-package dired-single
-	     :ensure t)
+  :ensure t)
 
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode t)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) "))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 
@@ -161,26 +165,8 @@
 (when (require 'rtags nil t)
   (progn
     (setq rtags-path "/usr/local/bin")
-    ;; (define-key c-mode-base-map (kbd "M-.")
-    ;;   (function rtags-find-symbol-at-point))
-    ;; (define-key c-mode-base-map (kbd "M-,")
-    ;;   (function rtags-find-references-at-point))
     (setq rtags-autostart-diagnostics t)
     (rtags-diagnostics)
-
-    ;; ensure that we use only rtags checking
-    ;; https://github.com/Andersbakken/rtags#optional-1
-    ;;(defun setup-flycheck-rtags ()
-    ;;  (interactive)
-    ;;  (flycheck-select-checker 'rtags)
-    ;; RTags creates more accurate overlays.
-    ;;  (setq-local flycheck-highlighting-mode nil)
-    ;;  (setq-local flycheck-check-syntax-automatically nil))
-
-    ;; only run this if rtags is installed
-    ;; (when (require 'rtags nil :noerror)
-    ;; make sure you have company-mode installed
-    ;;  (require 'company)
 
     (define-key c-mode-base-map (kbd "<f6>")
       (function rtags-find-symbol-at-point))
@@ -190,100 +176,6 @@
       (function rtags-location-stack-back))
     (define-key c-mode-base-map (kbd "M-.")
       (function rtags-location-stack-forward))
-
-    ;; disable prelude's use of C-c r, as this is the rtags keyboard prefix
-					; (define-key prelude-mode-map (kbd "C-c r") nil)
-    ;; install standard rtags keybindings. Do M-. on the symbol below to
-    ;; jump to definition and see the keybindings.
-    ;;  (rtags-enable-standard-keybindings)
-    ;; comment this out if you don't have or don't use helm
-					; (setq rtags-use-helm t)
-    ;; company completion setup
-    ;;  (setq rtags-autostart-diagnostics t)
-    ;;  (rtags-diagnostics)
-    ;;  (setq rtags-completions-enabled t)
-    ;;  (push 'company-rtags company-backends)
-    ;;  (global-company-mode)
-					; (define-key c-mode-base-map (kbd "<C-tab>") (function company-complete))
-    ;; use rtags flycheck mode -- clang warnings shown inline
-    ;;  (require 'flycheck-rtags)
-    ;; c-mode-common-hook is also called by c++-mode
-    ;;  (add-hook 'c-mode-common-hook #'setup-flycheck-rtags)
-    ;;)
-
     )
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Initialization no longer used but that might be re-enabled at
-;; some later date.
-
-;; always end a file with a newline
-;(setq require-final-newline 'query)
-
-;;; uncomment for CJK utf-8 support for non-Asian users
-;; (require 'un-define)
-
-;; Default frame configuration for colors and font
-;(add-to-list 'default-frame-alist '(background-color . "#282838"))
-;(add-to-list 'default-frame-alist '(foreground-color . "wheat"))
-;(add-to-list 'default-frame-alist '(cursor-color .  "orchid"))
-
-
-;; (defun mrc-xwin-look (frame)
-;;   "Setup to use if running in an X window"
-;;   (color-theme-tty-dark))
-
-;; (defun mrc-terminal-look (frame)
-;;   "Setup to use if running in a terminal"
-;;   (color-theme-charcoal-black))
-
-;; (load "color-theme")
-;; (defun mrc-setup-frame (frame)
-;;   (set-variable 'color-theme-is-global nil)
-;;   (select-frame frame)
-;;   (cond
-;;    ((window-system)
-;;     (mrc-xwin-look frame))
-;;    (t (mrc-terminal-look frame))))
-
-;; (add-hook 'after-make-frame-functions 'mrc-setup-frame)
-
-;; (add-hook 'after-init-hook
-;;       (lambda ()
-;;         (mrc-setup-frame (selected-frame))))
-
-;; Frame geometry settings
-;(add-to-list 'default-frame-alist '(top . 0))
-;(add-to-list 'default-frame-alist '(left . 700))
-;(add-to-list 'default-frame-alist '(width . 92))
-;(add-to-list 'default-frame-alist '(height . 65))
-
-;(setq initial-frame-alist '((top . 0) (left . 0)))
-
-;(require 'simplenote2)
-;(setq simplenote2-email "mattcrane@fastmail.com")
-;(setq simplenote2-password "bigben87")
-;(simplenote2-setup)
-
-;(require 'deft)
-
-;; SLIME Common Lisp development environment
-;(setq inferior-lisp-program "sbcl")
-;(load (expand-file-name "~/quicklisp/slime-helper.el"))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(delete-selection-mode nil)
- '(package-selected-packages (quote (use-package ace-window magit))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
