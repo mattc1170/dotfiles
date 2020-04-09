@@ -64,7 +64,7 @@
 ;; no splash screen
 (setq inhibit-splash-screen t)
 
-;; Selecting / copying text
+; Selecting / copying text
 (if (fboundp 'pc-selection-mode)
     (pc-selection-mode t))
 
@@ -137,6 +137,13 @@
   (ivy-mode t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) "))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  (setq projectile-completion-system 'ivy)
+  (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
