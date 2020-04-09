@@ -9,6 +9,7 @@
 ;; Load my color theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'atom-one-dark t)
+
 (add-to-list 'default-frame-alist '(cursor-color . "orange"))
 
 ;; Windows variables
@@ -25,7 +26,6 @@
 	(string-equal system-type "linux"))
     (progn
       (add-to-list 'default-frame-alist (cons 'font local-linux-font))
-;;      (setenv "ESHELL" (expand-file-name "~/bin/eshell"))
     )
 )
 
@@ -41,11 +41,6 @@
 ;; turn on font-lock mode
 (when (fboundp 'global-font-lock-mode)
   (global-font-lock-mode t))
-
-;; ido completion
-;; (require 'ido)
-;; (ido-mode 'buffer)
-;; (setq ido-save-directory-list-file "~/.emacs.d/.ido.last")
 
 ;; default to better frame titles
 (setq frame-title-format
@@ -112,7 +107,8 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(package-refresh-contents)
+(unless package-archive-contents
+  (package-refresh-contents))
 
 (dolist (package '(use-package))
   (unless (package-installed-p package)
@@ -152,13 +148,13 @@
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 
 (global-set-key [f5] 'query-replace)
-;(global-set-key [f6] ')
+;(global-set-key [f6] ) ; f6 defined later for rtags
 (global-set-key [f7] 'compile)
-;(global-set-key [f8]) 
+;(global-set-key [f8])  ; f8 defined later for rtags
 ;(global-set-key [f9] )
 ;(global-set-key [f10] )
 ;(global-set-key [f11] )
-(global-set-key [f12] '(lambda() (interactive) (find-file "~/.emacs")))
+(global-set-key [f12] '(lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 
 (if (string-equal system-type "windows-nt")
     (w32-send-sys-command #xf030))
