@@ -57,7 +57,7 @@ setopt COMPLETE_IN_WORD
 #colors
 
 export LS_OPTIONS="--color --group-directories-first"
-export EDITOR="/usr/bin/emacsclient -t -a ''"
+export EDITOR="emacsclient -t -a ''"
 export VISUAL=$EDITOR
 
 # Aliases
