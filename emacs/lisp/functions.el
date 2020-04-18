@@ -29,14 +29,6 @@
     (function
      (lambda nil (interactive) (dired-single-buffer "..")))))
 
-;; Window shifting. C-x-o lets us go forward a window (or several). This
-;; one lets us go back one or more windows. From Glickstein.
-(defun other-window-backward (&optional n)
-  "Select previous Nth window."
-  (interactive "P")
-  (other-window (- (prefix-numeric-value n))))
-
-
 (defun toggle-window-dedicated ()
   "Control whether or not Emacs is allowed to display another
 buffer in current window."
