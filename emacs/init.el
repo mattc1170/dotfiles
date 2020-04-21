@@ -38,6 +38,9 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 
+;; Scrolling to top and bottom
+(setq scroll-error-top-bottom t)
+
 ;; turn on font-lock mode
 (when (fboundp 'global-font-lock-mode)
   (global-font-lock-mode t))
@@ -171,6 +174,16 @@
 ;;   (god-mode)
 ;;   (global-set-key (kbd "<escape>") #'god-local-mode))
 
+(use-package yaml-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+
+(use-package indent-tools
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c >") 'indent-tools-hydra/body))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
