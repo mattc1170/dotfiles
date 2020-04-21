@@ -134,8 +134,19 @@
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) "))
 
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "M-i") 'counsel-imenu))
+
 (use-package projectile
   :ensure t
+  :init
+  (setq projectile-project-root-files #'( ".projectile" ))
+  (setq projectile-project-root-files-functions #'(projectile-root-top-down
+						   projectile-root-top-down-recurring
+						   projectile-root-bottom-up
+						   projectile-root-local))
   :config
   (projectile-mode +1)
   (setq projectile-completion-system 'ivy)
@@ -143,6 +154,22 @@
 
 (use-package ag
   :ensure t)
+
+(use-package dtrt-indent
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook
+	    (lambda()
+	      (dtrt-indent-mode t))))
+
+(use-package restclient
+  :ensure t)
+
+;; (use-package god-mode
+;;   :ensure t
+;;   :config
+;;   (god-mode)
+;;   (global-set-key (kbd "<escape>") #'god-local-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
@@ -174,9 +201,9 @@
     (setq rtags-autostart-diagnostics t)
     (rtags-diagnostics)
 
-    (define-key c-mode-base-map (kbd "<f6>")
+    (define-key c-mode-base-map (kbd "C-,")
       (function rtags-find-symbol-at-point))
-    (define-key c-mode-base-map (kbd "<f8>")
+    (define-key c-mode-base-map (kbd "C-.")
       (function rtags-find-references-at-point))
     (define-key c-mode-base-map (kbd "M-,")
       (function rtags-location-stack-back))
@@ -184,3 +211,21 @@
       (function rtags-location-stack-forward))
     )
   )
+
+;; Load a local post configuration file if it exists
+(load "local-post" t)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (god-mode restclient use-package projectile magit ivy dired-single ag ace-window))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
