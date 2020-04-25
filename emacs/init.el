@@ -2,7 +2,8 @@
 ;; Override them in local.el
 (setq local-linux-font "Monospace-9")
 
-(setq load-path (append (list nil "~/.emacs.d/lisp") load-path ))
+;;(setq load-path (append (list nil "~/.emacs.d/lisp") load-path ))
+(add-to-list 'load-path "~/.emacs.d/lisp")
 (load "functions")
 (load "local" t)
 
@@ -77,10 +78,6 @@
   ;; it's not loaded yet, so add our bindings to the load-hook
   (add-hook 'dired-load-hook 'my-dired-init))
 
-;; Tramp customization
-(setq tramp-default-method "ssh")
-(setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*") 
-
 ;; Ediff customization
 (setq ediff-keep-variants "nil")
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -153,7 +150,7 @@
   :config
   (projectile-mode +1)
   (setq projectile-completion-system 'ivy)
-  (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package ag
   :ensure t)
