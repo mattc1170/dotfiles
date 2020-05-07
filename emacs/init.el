@@ -30,14 +30,10 @@
     )
 )
 
-;; If not using windowing system, supress the menu bar
-(when (and (not window-system)
-           (fboundp 'menu-bar-mode))
-  (menu-bar-mode 0))
-
-;; Always supress toolbar and scrollbar
+;; Always supress toolbar, menubar, and scrollbar
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(menu-bar-mode 0)
 
 ;; Scrolling to top and bottom
 (setq scroll-error-top-bottom t)
@@ -67,7 +63,7 @@
 (if (fboundp 'pc-selection-mode)
     (pc-selection-mode t))
 
-(setq x-select-enable-clipboard t) 
+(setq x-select-enable-clipboard t)
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;; Make dired suck a lot less
@@ -82,6 +78,18 @@
 (setq ediff-keep-variants "nil")
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; Scroll the compilation buffer
+(setq compilation-scroll-output t)
+
+;; Kill the annoying gdb I/O buffer popping up in every frame
+(setq gdb-display-io-nopopup t)
+
+;; Don't split a window vertically
+(setq split-height-threshold nil)
+
+;; Delete trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
@@ -114,6 +122,15 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(use-package all-the-icons
+  :ensure t)
+
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme 'icons)
+  (setq neo-window-width 40))
+
 (use-package ace-window
   :ensure t
   :bind ("M-o" . ace-window)
@@ -132,12 +149,21 @@
   :config
   (ivy-mode t)
   (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) "))
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-on-del-error-function #'ignore)
+  (setq enable-recursive-minibuffers t))
+
 
 (use-package counsel
   :ensure t
   :config
+  (counsel-mode 1)
   (global-set-key (kbd "M-i") 'counsel-imenu))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-mode 1))
 
 (use-package projectile
   :ensure t
@@ -150,6 +176,7 @@
   :config
   (projectile-mode +1)
   (setq projectile-completion-system 'ivy)
+  (setq projectile-switch-project-action 'neotree-projectile-action)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package ag
