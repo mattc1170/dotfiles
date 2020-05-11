@@ -590,8 +590,8 @@
   ;; hlinum
   `(linum-highlight-face ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg))))
   ;; native line numbers (emacs version >=26)
-  `(line-number ((t (:foreground ,atom-one-dark-gutter :background ,atom-one-dark-bg))))
-  `(line-number-current-line ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg))))
+  `(line-number ((t (:foreground ,atom-one-dark-gutter :background ,atom-one-dark-black))))
+  `(line-number-current-line ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-black))))
 
   ;; regexp-builder
   `(reb-match-0 ((t (:background ,atom-one-dark-gray))))

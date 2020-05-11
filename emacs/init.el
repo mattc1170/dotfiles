@@ -1,8 +1,16 @@
+;;
+;; Matt Crane's Emacs init.el
+;; Time-stamp: <2020-05-11 16:01:39 mcrane>
+
+;;
+;; Lots of good stuff picked up from Patrick Thomson here:
+;; https://github.com/patrickt/emacs/blob/master/readme.org
+;;
+
 ;; A few required variables defined with reasonable defaults.
 ;; Override them in local.el
 (setq local-linux-font "Monospace-9")
 
-;;(setq load-path (append (list nil "~/.emacs.d/lisp") load-path ))
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (load "functions")
 (load "local" t)
@@ -30,10 +38,12 @@
     )
 )
 
-;; Always supress toolbar, menubar, and scrollbar
+;; Always supress toolbar, menubar, tooltips, and scrollbar
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (menu-bar-mode 0)
+(tooltip-mode 0)
+(fringe-mode 0)
 
 ;; Scrolling to top and bottom
 (setq scroll-error-top-bottom t)
@@ -50,6 +60,11 @@
 (setq backup-by-copying t)
 (setq backup-directory-alist `(("." . "~/.emacs.d/backup")))
 
+;; Stop backup/autosave littering
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+
 ;; Always use 'y' or 'n'
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -58,6 +73,20 @@
 
 ;; no splash screen
 (setq inhibit-splash-screen t)
+
+;; no reminder of what scratch is used for
+(setq initial-scratch-message nil)
+
+;; Prompts belong in the minibuffer, not in the GUI
+(setq use-dialog-box nil)
+
+;; Typing replaces selected text
+(delete-selection-mode t)
+
+;; Line / column numbers
+(global-display-line-numbers-mode t)
+(setq-default display-line-numbers-width 4)
+(column-number-mode)
 
 ; Selecting / copying text
 (if (fboundp 'pc-selection-mode)
@@ -91,6 +120,13 @@
 ;; Delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; Add final newline
+(setq require-final-newline t)
+
+;; Automagic parens/braces pairs
+(electric-pair-mode)
+(show-paren-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -122,30 +158,44 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(use-package all-the-icons
-  :ensure t)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+(use-package all-the-icons)
+
+(use-package all-the-icons-dired
+  :after all-the-icons
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package diminish
+  :config
+  (diminish 'eldoc-mode))
+
+(use-package doom-modeline
+  :custom-face
+  (mode-line((t (:height 1.0))))
+  :config
+  (setq doom-modeline-vcs-max-length 30)
+  (setq doom-modeline-height 1)
+  (doom-modeline-mode))
 
 (use-package neotree
-  :ensure t
   :config
   (setq neo-theme 'icons)
   (setq neo-window-width 40))
 
 (use-package ace-window
-  :ensure t
   :bind ("M-o" . ace-window)
   :delight
   :config
   (ace-window-display-mode 1))
 
-(use-package magit
-  :ensure t)
+(use-package magit)
 
-(use-package dired-single
-  :ensure t)
+(use-package dired-single)
 
 (use-package ivy
-  :ensure t
+  :diminish
   :config
   (ivy-mode t)
   (setq ivy-use-virtual-buffers t)
@@ -155,18 +205,17 @@
 
 
 (use-package counsel
-  :ensure t
+  :diminish
   :config
   (counsel-mode 1)
   (global-set-key (kbd "M-i") 'counsel-imenu))
 
 (use-package counsel-projectile
-  :ensure t
   :config
   (counsel-projectile-mode 1))
 
 (use-package projectile
-  :ensure t
+  :diminish
   :init
   (setq projectile-project-root-files #'( ".projectile" ))
   (setq projectile-project-root-files-functions #'(projectile-root-top-down
@@ -180,32 +229,26 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package ag
-  :ensure t)
+  )
 
 (use-package dtrt-indent
-  :ensure t
+  :diminish
   :config
   (add-hook 'c-mode-common-hook
 	    (lambda()
 	      (dtrt-indent-mode t))))
 
 (use-package restclient
-  :ensure t)
-
-;; (use-package god-mode
-;;   :ensure t
-;;   :config
-;;   (god-mode)
-;;   (global-set-key (kbd "<escape>") #'god-local-mode))
+  )
 
 (use-package yaml-mode
-  :ensure t
+
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 
 (use-package indent-tools
-  :ensure t
+
   :config
   (global-set-key (kbd "C-c >") 'indent-tools-hydra/body))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
