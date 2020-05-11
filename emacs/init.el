@@ -95,18 +95,18 @@
 ;; Org
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'org)
-(setq org-directory "~/Notes")
+(setq org-directory "~/Dropbox/org")
 (setq org-startup-indented 't)
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-agenda-files (quote("~/Notes")))
+(setq org-default-notes-file (concat org-directory "/inbox.org"))
+(setq org-agenda-files (quote("~/Dropbox/org")))
 (define-key global-map "\C-cc" 'org-capture)
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "" "Tasks")
-	 "* TODO %?\n %i\n %a")
-	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
-	 "* %?\nEntered on %U\n %i\n %a")
-	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
-	 "* [[~/code_review/%f]] %t :code_review:\n %^{Reviewer}p")))
+;; (setq org-capture-templates
+;;       '(("t" "Todo" entry (file+headline "" "Tasks")
+;; 	 "* TODO %?\n %i\n %a")
+;; 	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
+;; 	 "* %?\nEntered on %U\n %i\n %a")
+;; 	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
+;; 	 "* [[~/code_review/%f]] %t :code_review:\n %^{Reviewer}p")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MELPA packages
