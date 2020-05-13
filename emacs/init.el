@@ -43,7 +43,7 @@
 (scroll-bar-mode 0)
 (menu-bar-mode 0)
 (tooltip-mode 0)
-(fringe-mode 0)
+(fringe-mode 4)
 
 ;; Scrolling to top and bottom
 (setq scroll-error-top-bottom t)
@@ -84,7 +84,8 @@
 (delete-selection-mode t)
 
 ;; Line / column numbers
-(global-display-line-numbers-mode t)
+;;(global-display-line-numbers-mode t)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (setq-default display-line-numbers-width 4)
 (column-number-mode)
 
@@ -174,6 +175,7 @@
 (use-package doom-modeline
   :custom-face
   (mode-line((t (:height 1.0))))
+  (mode-line-inactive((t (:height 1.0))))
   :config
   (setq doom-modeline-vcs-max-length 30)
   (setq doom-modeline-height 1)
@@ -228,8 +230,7 @@
   (setq projectile-switch-project-action 'neotree-projectile-action)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(use-package ag
-  )
+(use-package ag)
 
 (use-package dtrt-indent
   :diminish
@@ -238,19 +239,17 @@
 	    (lambda()
 	      (dtrt-indent-mode t))))
 
-(use-package restclient
-  )
+(use-package restclient)
 
 (use-package yaml-mode
-
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 
 (use-package indent-tools
-
   :config
   (global-set-key (kbd "C-c >") 'indent-tools-hydra/body))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -258,9 +257,9 @@
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
 
 (global-set-key [f5] 'query-replace)
-;(global-set-key [f6] ) ; f6 defined later for rtags
+;(global-set-key [f6] )
 (global-set-key [f7] 'compile)
-;(global-set-key [f8])  ; f8 defined later for rtags
+;(global-set-key [f8])
 ;(global-set-key [f9] )
 ;(global-set-key [f10] )
 ;(global-set-key [f11] )
