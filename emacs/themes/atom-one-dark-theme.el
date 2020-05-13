@@ -199,6 +199,8 @@
   `(dired-async-message ((t (:inherit success))))
   `(dired-async-mode-message ((t (:foreground ,atom-one-dark-orange-1))))
 
+  `(all-the-icons-dired-dir-face ((t (:inherit (font-lock-keyword-face)))))
+
   ;; helm
   `(helm-header ((t (:foreground ,atom-one-dark-mono-2
                                  :background ,atom-one-dark-bg
