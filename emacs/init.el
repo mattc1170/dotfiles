@@ -173,12 +173,10 @@
   (diminish 'eldoc-mode))
 
 (use-package doom-modeline
-  :custom-face
-  (mode-line((t (:height 1.0))))
-  (mode-line-inactive((t (:height 1.0))))
   :config
   (setq doom-modeline-vcs-max-length 30)
   (setq doom-modeline-height 1)
+  (setq doom-modeline-icon t)
   (doom-modeline-mode))
 
 (use-package neotree
@@ -192,7 +190,8 @@
   :config
   (ace-window-display-mode 1))
 
-(use-package magit)
+(use-package magit
+  :bind ("C-x g" . magit-status))
 
 (use-package dired-single)
 
