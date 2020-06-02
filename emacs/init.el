@@ -135,9 +135,17 @@
 (setq org-directory "~/Dropbox/org")
 (setq org-startup-indented 't)
 (setq org-default-notes-file (concat org-directory "/inbox.org"))
-(setq org-agenda-files (quote("~/Dropbox/org")))
+(setq org-agenda-files '("~/Dropbox/org/inbox.org"
+			 "~/Dropbox/org/projects.org"
+			 "~/Dropbox/org/hold.org"))
+(setq org-refile-targets '(("~/Dropbox/org/projects.org" :maxlevel . 2)
+			   ("~/Dropbox/org/someday.org" :maxlevel . 2)
+			   ("~/Dropbox/org/hold.org" :maxlevel . 2 )))
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps nil)
+
 (define-key global-map "\C-cc" 'org-capture)
-;; (setq org-capture-templates
+;; (setq org-capture-templates*
 ;;       '(("t" "Todo" entry (file+headline "" "Tasks")
 ;; 	 "* TODO %?\n %i\n %a")
 ;; 	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
