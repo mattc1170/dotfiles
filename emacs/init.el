@@ -145,9 +145,11 @@
 (setq org-outline-path-complete-in-steps nil)
 
 (define-key global-map "\C-cc" 'org-capture)
-;; (setq org-capture-templates*
-;;       '(("t" "Todo" entry (file+headline "" "Tasks")
-;; 	 "* TODO %?\n %i\n %a")
+(setq org-capture-templates
+      '(("i" "Inbox" entry (file "~/Dropbox/org/inbox.org")
+         "* %?\n %i\n")
+        ("p" "Project" entry (file "~/Dropbox/org/projects.org")
+         "* %?\nOUTCOME: \n")))
 ;; 	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
 ;; 	 "* %?\nEntered on %U\n %i\n %a")
 ;; 	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
