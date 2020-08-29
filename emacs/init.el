@@ -308,6 +308,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(delete-selection-mode nil)
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org")))
  '(package-selected-packages
    (quote
     (god-mode restclient use-package projectile magit ivy dired-single ag ace-window))))
@@ -316,4 +320,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(mode-line ((t (:height 1.0))))
+ '(mode-line-inactive ((t (:height 1.0)))))
