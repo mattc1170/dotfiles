@@ -350,6 +350,24 @@
   `(js2-jsdoc-value((t (:foreground ,atom-one-dark-red-1))))
   `(js2-object-property ((t (:foreground ,atom-one-dark-red-1))))
 
+  ;; ediff
+  `(ediff-fine-diff-Ancestor                ((t (:background "#885555"))))
+  `(ediff-fine-diff-A                       ((t (:background "#885555"))))
+  `(ediff-fine-diff-B                       ((t (:background "#558855"))))
+  `(ediff-fine-diff-C                       ((t (:background "#555588"))))
+  `(ediff-current-diff-Ancestor             ((t (:background "#663333"))))
+  `(ediff-current-diff-A                    ((t (:background "#663333"))))
+  `(ediff-current-diff-B                    ((t (:background "#336633"))))
+  `(ediff-current-diff-C                    ((t (:background "#333366"))))
+  `(ediff-even-diff-Ancestor                ((t (:background "#181a1f"))))
+  `(ediff-even-diff-A                       ((t (:background "#181a1f"))))
+  `(ediff-even-diff-B                       ((t (:background "#181a1f"))))
+  `(ediff-even-diff-C                       ((t (:background "#181a1f"))))
+  `(ediff-odd-diff-Ancestor                 ((t (:background "#181a1f"))))
+  `(ediff-odd-diff-A                        ((t (:background "#181a1f"))))
+  `(ediff-odd-diff-B                        ((t (:background "#181a1f"))))
+  `(ediff-odd-diff-C                        ((t (:background "#181a1f"))))
+
   ;; magit
   `(magit-section-highlight ((t (:background ,atom-one-dark-bg-hl))))
   `(magit-section-heading ((t (:foreground ,atom-one-dark-orange-2 :weight bold))))
@@ -592,8 +610,8 @@
   ;; hlinum
   `(linum-highlight-face ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg))))
   ;; native line numbers (emacs version >=26)
-  `(line-number ((t (:foreground ,atom-one-dark-gutter :background ,atom-one-dark-black))))
-  `(line-number-current-line ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-black))))
+  `(line-number ((t (:foreground ,atom-one-dark-gutter :background ,atom-one-dark-bg))))
+  `(line-number-current-line ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg))))
 
   ;; regexp-builder
   `(reb-match-0 ((t (:background ,atom-one-dark-gray))))
