@@ -86,7 +86,6 @@
 ;; Line / column numbers
 ;;(global-display-line-numbers-mode t)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(setq-default display-line-numbers-width 4)
 (column-number-mode)
 
 ; Selecting / copying text
@@ -121,6 +120,11 @@
 ;; Delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; Open all files in read-only mode
+(add-hook 'find-file-hook
+	  (lambda()
+	    (if (file-exists-p (buffer-file-name)) (read-only-mode))))
+
 ;; Add final newline
 (setq require-final-newline t)
 
@@ -154,7 +158,15 @@
       '(("i" "Inbox" entry (file "~/Dropbox/org/inbox.org")
          "* %?\n %i\n")
         ("p" "Project" entry (file "~/Dropbox/org/projects.org")
-         "* %?\nOUTCOME: \n")))
+         "* %?\nOUTCOME: \n")
+	("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
+         "%(org-chef-get-recipe-from-url)"
+         :empty-lines 1)
+        ("m" "Manual Cookbook" entry (file "~/Dropbox/org/cookbook.org")
+         "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")))
+
+(define-key org-mode-map (kbd "C-c a") 'org-agenda)
+
 ;; 	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
 ;; 	 "* %?\nEntered on %U\n %i\n %a")
 ;; 	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
@@ -314,12 +326,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(delete-selection-mode nil)
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org")))
+ '(org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org"))
  '(package-selected-packages
-   (quote
-    (god-mode restclient use-package projectile magit ivy dired-single ag ace-window))))
+   '(org-chef vterm god-mode restclient use-package projectile magit ivy dired-single ag ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
