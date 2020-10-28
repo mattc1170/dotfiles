@@ -120,10 +120,12 @@
 ;; Delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Open all files in read-only mode
+;; Open all files except empty and some others in read-only mode
 (add-hook 'find-file-hook
 	  (lambda()
-	    (if (file-exists-p (buffer-file-name)) (read-only-mode))))
+	    (if (and (not (string-equal (buffer-name) 'COMMIT_EDITMSG))
+			  (file-exists-p (buffer-file-name)))
+		(read-only-mode))))
 
 ;; Add final newline
 (setq require-final-newline t)
