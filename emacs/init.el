@@ -117,6 +117,9 @@
 ;; Don't split a window vertically
 (setq split-height-threshold nil)
 
+;; Highlight current line in buffer menu
+(add-hook 'buffer-menu-mode-hook 'hl-line-mode)
+
 ;; Delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -231,7 +234,8 @@
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-on-del-error-function #'ignore)
-  (setq enable-recursive-minibuffers t))
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-use-selectable-prompt t))
 
 
 (use-package counsel
@@ -316,6 +320,14 @@
       (function rtags-location-stack-back))
     (define-key c-mode-base-map (kbd "M-.")
       (function rtags-location-stack-forward))
+    (define-key rtags-mode-map (kbd "M-o")
+      nil)
+    (define-key rtags-dependency-tree-mode-map (kbd "M-o")
+      nil)
+    (define-key rtags-references-tree-mode-map (kbd "M-o")
+      nil)
+    (define-key rtags-location-stack-visualize-mode-map (kbd "M-o")
+      nil)
     )
   )
 
@@ -338,3 +350,4 @@
  ;; If there is more than one, they won't work right.
  '(mode-line ((t (:height 1.0))))
  '(mode-line-inactive ((t (:height 1.0)))))
+(put 'erase-buffer 'disabled nil)

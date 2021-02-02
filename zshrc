@@ -87,6 +87,7 @@ setopt pushd_minus
 setopt pushd_to_home
 setopt auto_cd
 setopt auto_menu
+setopt interactive_comments
 
 export DIRSTACKSIZE=5
 export PATH=$PATH:~/.local/bin:~/bin
@@ -99,4 +100,3 @@ if [ $TERM != "linux" ]; then
     # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
     [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
-
