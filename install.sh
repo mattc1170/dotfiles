@@ -53,6 +53,8 @@ ln -s $PWD/screenrc ~/.screenrc
 echo "Installing Powerlevel10k zsh theme"
 if [ -d ~/powerlevel10k ]; then
     echo "Moving existing ~/powerlevel10k to ~/powerlevel10k.bak"
+    mv ~/powerlevel10k ~/powerlevel10k.bak
+fi
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
 cd ~/.emacs.d/lisp/
