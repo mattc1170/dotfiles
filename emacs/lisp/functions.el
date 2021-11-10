@@ -40,6 +40,13 @@ buffer in current window."
      "%s is up for grabs.")
    (current-buffer)))
 
+(defun matt-prose-buffer ()
+  "Configure the current buffer for writing prose"
+  (interactive)
+  (progn
+    (variable-pitch-mode)
+    (visual-line-mode)
+    (setq cursor-mode 'bar)))
 
 ;; Create a new frame and run ediff in it
 ;; (defun ediff-files-new-frame ()

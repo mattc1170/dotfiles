@@ -9,7 +9,7 @@
 
 ;; A few required variables defined with reasonable defaults.
 ;; Override them in local.el
-(setq local-linux-font "Monospace-9")
+(setq local-linux-font "Monospace-10")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (load "functions")
@@ -93,7 +93,7 @@
     (pc-selection-mode t))
 
 (setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;; Make dired suck a lot less
 ;; if dired's already loaded, then the keymap will be bound
@@ -123,13 +123,6 @@
 ;; Delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Open all files except empty and some others in read-only mode
-(add-hook 'find-file-hook
-	  (lambda()
-	    (if (and (not (string-equal (buffer-name) 'COMMIT_EDITMSG))
-			  (file-exists-p (buffer-file-name)))
-		(read-only-mode))))
-
 ;; Add final newline
 (setq require-final-newline t)
 
@@ -158,10 +151,12 @@
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 
+(setq org-agenda-default-appointment-duration 30)
+
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-capture-templates
       '(("i" "Inbox" entry (file "~/Dropbox/org/inbox.org")
-         "* %?\n %i\n")
+         "* %?\n %a\n %i\n")
         ("p" "Project" entry (file "~/Dropbox/org/projects.org")
          "* %?\nOUTCOME: \n")
 	("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
@@ -176,6 +171,36 @@
 ;; 	 "* %?\nEntered on %U\n %i\n %a")
 ;; 	("r" "Code Review" entry (file ,(concat org-directory "/code-review.org"))
 ;; 	 "* [[~/code_review/%f]] %t :code_review:\n %^{Reviewer}p")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; mu4e
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'mu4e)
+;; (setq
+;;  mue4e-headers-skip-duplicates  t
+;;  mu4e-view-show-images t
+;;  mu4e-view-show-addresses t
+;;  mu4e-compose-format-flowed nil
+;;  mu4e-date-format "%y/%m/%d"
+;;  mu4e-headers-date-format "%Y/%m/%d"
+;;  mu4e-change-filenames-when-moving t
+;;  mu4e-attachments-dir "~/Downloads"
+
+;;  mu4e-maildir       "~/Maildir"   ;; top-level Maildir
+;;  ;; note that these folders below must start with /
+;;  ;; the paths are relative to maildir root
+;;  mu4e-refile-folder "/Archive"
+;;  mu4e-sent-folder   "/Sent Items"
+;;  mu4e-drafts-folder "/Drafts"
+;;  mu4e-trash-folder  "/Trash")
+
+;; ;; this setting allows to re-sync and re-index mail
+;; ;; by pressing U
+;; (setq mu4e-get-mail-command  "mbsync -c ~/.config/mbsync/mbsyncrc -a")
+;; (setq mu4e-html2text-command "w3m -T text/html -dump")
+
+;; ;; org / mu4e integration
+;; (require 'org-mu4e)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MELPA packages
@@ -282,6 +307,15 @@
   :config
   (global-set-key (kbd "C-c >") 'indent-tools-hydra/body))
 
+(use-package ledger-mode
+  :config
+  (setq ledger-post-amount-alignment-column 60)
+  (add-hook 'ledger-mode-hook
+	     (lambda ()
+	       (setq-local tab-always-indent 'complete)
+	       (setq-local completion-cycle-threshold t)
+	       (setq-local ledger-complete-in-steps t))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -342,7 +376,8 @@
  '(delete-selection-mode nil)
  '(org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org"))
  '(package-selected-packages
-   '(org-chef vterm god-mode restclient use-package projectile magit ivy dired-single ag ace-window)))
+   '(use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
+ '(warning-suppress-types '((comp) (comp) (comp) (comp) (comp) (comp) (comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
