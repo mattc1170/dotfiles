@@ -55,18 +55,6 @@ if [ -d ~/powerlevel10k ]; then
     echo "Moving existing ~/powerlevel10k to ~/powerlevel10k.bak"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
-echo "Linking  .emacs to ~"
-if [ -h ~/.emacs ]; then
-    echo "Removing existing ~/.emacs link"
-    /bin/rm ~/.emacs
-else
-    if [ -f ~/.emacs ]; then
-        echo "Moving existing ~/.emacs to emacs.bak"
-        mv ~/.emacs ~/.emacs.bak
-    fi
-fi
-ln -s $PWD/emacs ~/.emacs
-
 cd ~/.emacs.d/lisp/
 echo "Installing extra elisp files"
 
@@ -89,13 +77,13 @@ cd ~/.emacs.d/themes/
 if [ ! -f zenburn-theme.el ]; then
     echo "Fetching zenburn-theme.el"
     wget https://github.com/bbatsov/zenburn-emacs/raw/master/zenburn-theme.el
-else	
+else
     echo "File zenburn.el already installed"
 fi
 if [ ! -f atom-one-dark-theme.el ]; then
     echo "Fetching atom-one-dark-theme.el"
     wget https://raw.githubusercontent.com/jonathanchu/atom-one-dark-theme/master/atom-one-dark-theme.el
-else	
+else
     echo "File atom-one-dark-theme.el already installed"
 fi
 
@@ -127,4 +115,3 @@ fi
 # cd ..
 
 echo "Installation complete"
-
