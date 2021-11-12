@@ -57,23 +57,7 @@ if [ -d ~/powerlevel10k ]; then
 fi
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
-cd ~/.emacs.d/lisp/
-echo "Installing extra elisp files"
-
-if [ ! -f dired-single.el ]; then
-    echo "Fetching dired-single.el"
-    wget http://www.emacswiki.org/cgi-bin/wiki/download/dired-single.el
-else
-    echo "File dired-single.el already installed"
-fi
-
-if [ ! -f guess-offset.el ]; then
-    echo "Fetching guess-offset.el"
-    wget http://www.emacswiki.org/emacs/download/guess-offset.el
-else
-    echo "File guess-offset.el already installed"
-fi
-
+echo "Fetching emacs themes"
 mkdir -p ~/.emacs.d/themes
 cd ~/.emacs.d/themes/
 if [ ! -f zenburn-theme.el ]; then
