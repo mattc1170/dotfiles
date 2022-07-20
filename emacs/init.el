@@ -145,7 +145,8 @@
 (setq org-agenda-files '("~/Dropbox/org/inbox.org"
 			 "~/Dropbox/org/projects.org"
 			 "~/Dropbox/org/hold.org"))
-(setq org-refile-targets '(("~/Dropbox/org/projects.org" :maxlevel . 2)
+(setq org-refile-targets '(("~/Dropbox/org/gtd-personal.org" :maxlevel . 2)
+			   ("~/Dropbox/org/gtd-work.org" :maxlevel . 2)
 			   ("~/Dropbox/org/someday.org" :maxlevel . 2)
 			   ("~/Dropbox/org/hold.org" :maxlevel . 2 )))
 (setq org-refile-use-outline-path 'file)
@@ -166,6 +167,37 @@
          "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")))
 
 (define-key org-mode-map (kbd "C-c a") 'org-agenda)
+
+;; System org-capture
+;; taken from: https://www.reddit.com/r/emacs/comments/74gkeq/system_wide_org_capture/
+;; Open an org-capture frame from system using:
+;; emacsclient -c -F '(quote (name . "capture"))' -e '(activate-capture-frame)'
+;;
+(defadvice org-switch-to-buffer-other-window
+    (after supress-window-splitting activate)
+  "Delete the extra window if we're in a capture frame"
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-other-windows)))
+
+(defun activate-capture-frame ()
+  "run org-capture in capture frame"
+  (select-frame-by-name "capture")
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (org-capture))
+
+(defadvice org-capture-finalize
+    (after delete-capture-frame activate)
+  "Advise capture-finalize to close the frame"
+  (when (and (equal "capture" (frame-parameter nil 'name))
+             (not (eq this-command 'org-capture-refile)))
+    (delete-frame)))
+
+(defadvice org-capture-refile
+    (after delete-capture-frame activate)
+  "Advise org-refile to close the frame"
+  (delete-frame))
+
+(define-key global-map "\C-co" 'activate-capture-frame)
 
 ;; 	("j" "Journal" entry (file+datetree ,(concat org-directory "journal.org"))
 ;; 	 "* %?\nEntered on %U\n %i\n %a")
@@ -315,6 +347,12 @@
 	       (setq-local tab-always-indent 'complete)
 	       (setq-local completion-cycle-threshold t)
 	       (setq-local ledger-complete-in-steps t))))
+
+(use-package rustic
+  :config
+  (setq rustic-lsp-client 'nil))
+
+(use-package vterm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
