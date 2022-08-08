@@ -57,8 +57,16 @@ setopt COMPLETE_IN_WORD
 #colors
 
 export LS_OPTIONS="--color --group-directories-first"
-export EDITOR="emacsclient -t -a ''"
-export VISUAL=$EDITOR
+
+# If we're running in emacs vterm, set simple emacsclient.
+# Otherwise, call emacsclient text mode
+if [[ ${INSIDE_EMACS:-no_emacs_here} != 'no_emacs_here' ]]; then
+    export EDITOR=emacsclient
+    export VISUAL=emacsclient
+else
+    export EDITOR="emacsclient -t -a ''"
+    export VISUAL=$EDITOR
+fi
 
 # Aliases
 alias ls="/bin/ls $LS_OPTIONS"
