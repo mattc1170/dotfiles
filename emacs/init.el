@@ -151,7 +151,7 @@
 			   ("~/Dropbox/org/hold.org" :maxlevel . 2 )))
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
-
+(setq org-use-speed-commands t)
 (setq org-agenda-default-appointment-duration 30)
 
 (define-key global-map "\C-cc" 'org-capture)
