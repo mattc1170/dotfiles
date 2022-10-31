@@ -594,6 +594,17 @@
   `(term-color-white ((t :foreground ,atom-one-dark-fg)))
   `(term-color-yellow ((t (:foreground ,atom-one-dark-orange-1))))
 
+  ;; vterm
+  `(vterm-color-default ((t :foreground nil :background nil)))
+  `(vterm-color-black ((t :foreground ,atom-one-dark-mono-1 :background ,atom-one-dark-mono-1)))
+  `(vterm-color-red ((t :foreground ,atom-one-dark-red-1 :background ,atom-one-dark-red-1)))
+  `(vterm-color-green ((t :foreground ,atom-one-dark-green :background ,atom-one-dark-green)))
+  `(vterm-color-yellow ((t :foreground ,atom-one-dark-orange-1 :background ,atom-one-dark-orange-1)))
+  `(vterm-color-blue ((t :foreground ,atom-one-dark-blue :background ,atom-one-dark-blue)))
+  `(vterm-color-magenta ((t :foreground ,atom-one-dark-purple :background ,atom-one-dark-purple)))
+  `(vterm-color-cyan ((t :foreground ,atom-one-dark-cyan :background ,atom-one-dark-cyan)))
+  `(vterm-color-white ((t :foreground ,atom-one-dark-fg :background ,atom-one-dark-fg)))
+
   ;; tabbar
   `(tabbar-default ((,class (:foreground ,atom-one-dark-fg :background ,atom-one-dark-black))))
   `(tabbar-highlight ((,class (:underline t))))

@@ -195,7 +195,13 @@
 (defadvice org-capture-refile
     (after delete-capture-frame activate)
   "Advise org-refile to close the frame"
-  (delete-frame))
+  (when (equal "capture" (frame-parameter nil 'name))
+  (delete-frame)))
+
+(defun org-capture-frame ()
+  "create capture frame and run org-capture in it"
+  (make-frame '((name . "capture")))
+  (activate-capture-frame))
 
 (define-key global-map "\C-co" 'activate-capture-frame)
 
@@ -354,6 +360,10 @@
 
 (use-package vterm)
 
+(use-package yasnippet
+  :config
+  (yas-reload-all))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -368,6 +378,10 @@
 ;(global-set-key [f10] )
 ;(global-set-key [f11] )
 (global-set-key [f12] '(lambda() (interactive) (find-file "~/.emacs.d/init.el")))
+
+(setq scroll-preserve-screen-position 'always)
+(global-set-key (kbd "M-p") 'scroll-down)
+(global-set-key (kbd "M-n") 'scroll-up)
 
 (if (string-equal system-type "windows-nt")
     (w32-send-sys-command #xf030))
@@ -414,7 +428,7 @@
  '(delete-selection-mode nil)
  '(org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org"))
  '(package-selected-packages
-   '(use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
+   '(terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
  '(warning-suppress-types '((comp) (comp) (comp) (comp) (comp) (comp) (comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
