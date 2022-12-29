@@ -294,7 +294,7 @@
   :diminish
   :config
   (ivy-mode t)
-  (setq ivy-use-virtual-buffers t)
+  (setq ivy-use-virtual-buffers 'nil)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-on-del-error-function #'ignore)
   (setq enable-recursive-minibuffers t)
@@ -356,13 +356,20 @@
 
 (use-package rustic
   :config
-  (setq rustic-lsp-client 'nil))
+  (setq rustic-lsp-client 'lsp-mode))
 
 (use-package vterm)
 
 (use-package yasnippet
   :config
   (yas-reload-all))
+
+(use-package lsp-mode
+  :config
+  (add-hook 'c-mode-hook 'lsp)
+  (add-hook 'c++-mode-hook 'lsp))
+
+(use-package docker-tramp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
@@ -428,7 +435,8 @@
  '(delete-selection-mode nil)
  '(org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org"))
  '(package-selected-packages
-   '(terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
+   '(docker-tramp lsp-mode terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
+ '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-types '((comp) (comp) (comp) (comp) (comp) (comp) (comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

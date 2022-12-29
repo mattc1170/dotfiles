@@ -57,6 +57,7 @@ setopt COMPLETE_IN_WORD
 #colors
 
 export LS_OPTIONS="--color --group-directories-first"
+export LESS="-Xr"
 
 # If we're running in emacs vterm, set simple emacsclient.
 # Otherwise, call emacsclient text mode
