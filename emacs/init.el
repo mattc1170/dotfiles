@@ -135,6 +135,9 @@
 (if (version<= "27.1" emacs-version)
     (setq bidi-inhibit-bpa t))
 
+;; Default fill column
+(setq fill-column 80)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -143,7 +146,8 @@
 (setq org-startup-indented 't)
 (setq org-default-notes-file (concat org-directory "/inbox.org"))
 (setq org-agenda-files '("~/Dropbox/org/inbox.org"
-			 "~/Dropbox/org/projects.org"
+			 "~/Dropbox/org/gtd-work.org"
+			 "~/Dropbox/org/gtd-personal.org"
 			 "~/Dropbox/org/hold.org"))
 (setq org-refile-targets '(("~/Dropbox/org/gtd-personal.org" :maxlevel . 2)
 			   ("~/Dropbox/org/gtd-work.org" :maxlevel . 2)
@@ -153,6 +157,7 @@
 (setq org-outline-path-complete-in-steps nil)
 (setq org-use-speed-commands t)
 (setq org-agenda-default-appointment-duration 30)
+(setq org-agenda-window-setup 'current-window)
 
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-capture-templates
@@ -358,7 +363,9 @@
   :config
   (setq rustic-lsp-client 'lsp-mode))
 
-(use-package vterm)
+(use-package vterm
+  :config
+  (setq vterm-max-scrollback 10000))
 
 (use-package yasnippet
   :config
@@ -370,6 +377,13 @@
   (add-hook 'c++-mode-hook 'lsp))
 
 (use-package docker-tramp)
+
+(use-package org-journal
+  :config
+  (setq org-journal-dir "~/Dropbox/org/journal")
+  (setq org-journal-date-format "%a %d %b %Y")
+  (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-journal-mode-hook lambda () ()))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
@@ -433,9 +447,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(delete-selection-mode nil)
- '(org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/projects.org"))
+ '(org-agenda-files
+   '("/home/matt/Dropbox/org/inbox.org" "/home/matt/Dropbox/org/gtd-work.org" "/home/matt/Dropbox/org/gtd-personal.org"))
  '(package-selected-packages
-   '(docker-tramp lsp-mode terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
+   '(org-journal docker-tramp lsp-mode terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-types '((comp) (comp) (comp) (comp) (comp) (comp) (comp) (comp))))
 (custom-set-faces
