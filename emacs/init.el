@@ -136,7 +136,7 @@
     (setq bidi-inhibit-bpa t))
 
 ;; Default fill column
-(setq fill-column 80)
+(setq-default fill-column 80)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
@@ -145,6 +145,8 @@
 (setq org-directory "~/Dropbox/org")
 (setq org-startup-indented 't)
 (setq org-default-notes-file (concat org-directory "/inbox.org"))
+(setq org-todo-keywords
+      '((sequence "TODO" "|" "DONE" "DELG")))
 (setq org-agenda-files '("~/Dropbox/org/inbox.org"
 			 "~/Dropbox/org/gtd-work.org"
 			 "~/Dropbox/org/gtd-personal.org"
@@ -382,8 +384,7 @@
   :config
   (setq org-journal-dir "~/Dropbox/org/journal")
   (setq org-journal-date-format "%a %d %b %Y")
-  (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
-  (add-hook 'org-journal-mode-hook lambda () ()))
+  (add-hook 'org-journal-mode-hook 'turn-on-auto-fill))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings

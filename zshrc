@@ -65,7 +65,7 @@ if [[ ${INSIDE_EMACS:-no_emacs_here} != 'no_emacs_here' ]]; then
     export EDITOR=emacsclient
     export VISUAL=emacsclient
 else
-    export EDITOR="emacsclient -t -a ''"
+    export EDITOR="~/bin/et.sh"
     export VISUAL=$EDITOR
 fi
 
@@ -79,7 +79,7 @@ alias t="~/bin/todo.sh"
 
 # Useful emacs aliases
 alias e="emacsclient -c -n -a ''"
-alias et="emacsclient -t -a ''"
+alias et="TERM=xterm-24bits emacsclient -t -a ''"
 alias ek="emacsclient -e '(shutdown-emacs-server)'"
 alias ee="emacsclient -n"
 alias ediff="~/bin/ediff.sh"
