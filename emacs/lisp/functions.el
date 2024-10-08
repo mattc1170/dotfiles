@@ -48,6 +48,11 @@ buffer in current window."
     (visual-line-mode)
     (setq cursor-mode 'bar)))
 
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
 ;; Create a new frame and run ediff in it
 ;; (defun ediff-files-new-frame ()
 ;;   (interactive)

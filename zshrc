@@ -56,7 +56,6 @@ setopt COMPLETE_IN_WORD
 # autoload -U colors
 #colors
 
-export LS_OPTIONS="--color --group-directories-first"
 export LESS="-Xr"
 
 # If we're running in emacs vterm, set simple emacsclient.
@@ -70,12 +69,14 @@ else
 fi
 
 # Aliases
-alias ls="/bin/ls $LS_OPTIONS"
-alias ll="/bin/ls $LS_OPTIONS -l"
-alias la="/bin/ls $LS_OPTIONS -la | less -r"
-alias dv="dirs -v"
-alias cld="dirs .; popd"
-alias t="~/bin/todo.sh"
+alias ld="eza -lD"
+alias ll="eza --group-directories-first -l"
+alias lf="eza -lf --color=always | grep -v /"
+alias la="eza -la --group-directories-first --color=always | less -r"
+alias lh="eza -dl .* --group-directories-first"
+alias lz="eza -alf --color=always --sort=size | grep -v /"
+alias lt="eza -al --sort=modified"
+alias ls="eza"
 
 # Useful emacs aliases
 alias e="emacsclient -c -n -a ''"
@@ -99,13 +100,15 @@ setopt auto_menu
 setopt interactive_comments
 
 export DIRSTACKSIZE=5
-export PATH=$PATH:~/.local/bin:~/bin
+export PATH=$PATH:~/.local/bin:~/bin:~/.cargo/bin
 export HISTSIZE=1000
 
-if [ $TERM != "linux" ]; then
+if [ $TERM != "linux" ] && [ $TERM != "dumb" ]; then
     # Powerlevel10k prompt theme
     source ~/powerlevel10k/powerlevel10k.zsh-theme
 
     # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
     [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
+
+[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
