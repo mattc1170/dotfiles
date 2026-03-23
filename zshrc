@@ -64,7 +64,7 @@ if [[ ${INSIDE_EMACS:-no_emacs_here} != 'no_emacs_here' ]]; then
     export EDITOR=emacsclient
     export VISUAL=emacsclient
 else
-    export EDITOR="~/bin/et.sh"
+    export EDITOR="emacsclient -t -a ''"
     export VISUAL=$EDITOR
 fi
 
@@ -86,6 +86,17 @@ alias ee="emacsclient -n"
 alias ediff="~/bin/ediff.sh"
 alias ssh-keygen="noglob ssh-keygen"
 
+ep() {
+    tmpfile=$(mktemp /tmp/emacs.tmpXXXXXX)
+    > $tmpfile
+    emacsclient -n $tmpfile
+    rm $tmpfile
+}
+
+export DIRSTACKSIZE=5
+export PATH=$PATH:~/.local/bin:~/bin:~/.cargo/bin
+export HISTSIZE=1000
+
 if [[ -f ~/.localshrc ]]; then
     source ~/.localshrc
 fi
@@ -98,10 +109,6 @@ setopt pushd_to_home
 setopt auto_cd
 setopt auto_menu
 setopt interactive_comments
-
-export DIRSTACKSIZE=5
-export PATH=$PATH:~/.local/bin:~/bin:~/.cargo/bin
-export HISTSIZE=1000
 
 if [ $TERM != "linux" ] && [ $TERM != "dumb" ]; then
     # Powerlevel10k prompt theme

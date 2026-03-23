@@ -10,6 +10,7 @@
 ;; A few required variables defined with reasonable defaults.
 ;; Override them in local.el
 (setq local-linux-font "Monospace-10")
+(setq local-linux-bigfont "Monospace-12")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (load "functions")
@@ -30,13 +31,23 @@
       (add-to-list 'default-frame-alist '(font . "Lucida Console-8")))
 )
 
+(defun add-to-path (dir)
+  "Add DIR to PATH environment variable and Emacs' `exec-path' list."
+  (setenv "PATH" (concat dir ":" (getenv "PATH")))
+  (push dir exec-path))
+
+;; Example: Add the default Rust bin directory
+(add-to-path (expand-file-name "~/.cargo/bin"))
+
 ;; Set up local Linux font
 (if (or (string-equal system-type "gnu/linux")
-	(string-equal system-type "linux"))
+	    (string-equal system-type "linux"))
     (progn
       (add-to-list 'default-frame-alist (cons 'font local-linux-font))
-    )
-)
+      (add-to-path (expand-file-name "~/.cargo/bin"))
+      )
+
+  )
 
 ;; Always supress toolbar, menubar, tooltips, and scrollbar
 (tool-bar-mode 0)
@@ -48,7 +59,7 @@
 ;; Scrolling to top and bottom
 (setq scroll-error-top-bottom t)
 
-;; turn on font-lock mode
+;; turn on font-lock moed
 (when (fboundp 'global-font-lock-mode)
   (global-font-lock-mode t))
 
@@ -144,34 +155,55 @@
 (require 'org)
 (setq org-directory "~/Dropbox/org")
 (setq org-startup-indented 't)
-(setq org-default-notes-file (concat org-directory "/inbox.org"))
+(setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-todo-keywords
-      '((sequence "TODO" "|" "DONE" "DELG")))
-(setq org-agenda-files '("~/Dropbox/org/inbox.org"
-			 "~/Dropbox/org/gtd-work.org"
-			 "~/Dropbox/org/gtd-personal.org"
-			 "~/Dropbox/org/hold.org"))
-(setq org-refile-targets '(("~/Dropbox/org/gtd-personal.org" :maxlevel . 2)
-			   ("~/Dropbox/org/gtd-work.org" :maxlevel . 2)
-			   ("~/Dropbox/org/someday.org" :maxlevel . 2)
-			   ("~/Dropbox/org/hold.org" :maxlevel . 2 )))
+      '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|" "DONE(d)")))
+(setq org-agenda-files '("~/Dropbox/org/gtd/work.org"
+			 "~/Dropbox/org/gtd/personal.org"))
+(setq org-refile-targets '(("~/Dropbox/org/gtd/personal.org" :maxlevel . 2)
+			   ("~/Dropbox/org/gtd/work.org" :maxlevel . 2)))
 (setq org-refile-use-outline-path 'file)
+(setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-use-speed-commands t)
+(setq org-use-fast-todo-selection 'expert)
 (setq org-agenda-default-appointment-duration 30)
 (setq org-agenda-window-setup 'current-window)
 
+(setq org-agenda-custom-commands
+      '(("g" "GTD (Work + Personal)"
+         ;; WORK
+         ((todo "NEXT"
+                ((org-agenda-overriding-header "Work – Next Actions")
+                 (org-agenda-files '("~/Dropbox/org/gtd/work.org"))))
+          (todo "WAIT"
+                ((org-agenda-overriding-header "Work – Waiting For")
+                 (org-agenda-files '("~/Dropbox/org/gtd/work.org"))))
+
+          ;; PERSONAL
+          (todo "NEXT"
+                ((org-agenda-overriding-header "Personal – Next Actions")
+                 (org-agenda-files '("~/Dropbox/org/gtd/personal.org"))))
+          (todo "WAIT"
+                ((org-agenda-overriding-header "Personal – Waiting For")
+                 (org-agenda-files '("~/Dropbox/org/gtd/personal.org"))))))))
+
+(setq org-agenda-prefix-format
+      '((todo . " %-30.30b ")
+        (agenda . " %-30.30b ")
+        (tags . " %-30.30b ")
+        (search . " %-30.30b ")))
+
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-capture-templates
-      '(("i" "Inbox" entry (file "~/Dropbox/org/inbox.org")
-         "* %?\n %a\n %i\n")
-        ("p" "Project" entry (file "~/Dropbox/org/projects.org")
-         "* %?\nOUTCOME: \n")
-	("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
-         "%(org-chef-get-recipe-from-url)"
-         :empty-lines 1)
-        ("m" "Manual Cookbook" entry (file "~/Dropbox/org/cookbook.org")
-         "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")))
+      '(("i" "Inbox" entry (file "~/Dropbox/org/gtd/inbox.org")
+         "* %?\nEmacs capture %U" :empty-lines 1)))
+
+(add-hook 'js-json-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq tab-width 2)
+            (setq js-indent-level 2)))
 
 (define-key org-mode-map (kbd "C-c a") 'org-agenda)
 
@@ -293,7 +325,9 @@
   (ace-window-display-mode 1))
 
 (use-package magit
-  :bind ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status)
+  :config
+  (magit-add-section-hook 'magit-status-sections-hook magit-insert-local-branches))
 
 (use-package dired-single)
 
@@ -361,8 +395,19 @@
 	       (setq-local completion-cycle-threshold t)
 	       (setq-local ledger-complete-in-steps t))))
 
+
+(use-package lsp-mode
+  :config
+  (add-hook 'c-mode-hook 'lsp)
+  (add-hook 'c++-mode-hook 'lsp)
+  (setq lsp-keep-workspace-alive nil)
+)
+
+;; (setq lsp-rust-server 'rust-analyzer)
+
 (use-package rustic
   :config
+  (setq rust-mode-treesitter-derive t)
   (setq rustic-lsp-client 'lsp-mode))
 
 (use-package vterm
@@ -373,25 +418,21 @@
   :config
   (yas-reload-all))
 
-(use-package lsp-mode
-  :config
-  (add-hook 'c-mode-hook 'lsp)
-  (add-hook 'c++-mode-hook 'lsp))
-
-(use-package docker-tramp)
-
 (use-package org-journal
   :config
   (setq org-journal-dir "~/Dropbox/org/journal")
   (setq org-journal-date-format "%a %d %b %Y")
   (add-hook 'org-journal-mode-hook 'turn-on-auto-fill))
 
+(use-package dockerfile-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My personal keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-c t") 'toggle-window-dedicated)
-
+(global-set-key (kbd "C-c b") 'new-frame-big-font)
+(global-set-key (kbd "C-c j") 'org-journal-new-entry)
 (global-set-key [f5] 'query-replace)
 ;(global-set-key [f6] )
 (global-set-key [f7] 'compile)
@@ -441,24 +482,17 @@
 
 ;; Load a local post configuration file if it exists
 (load "local-post" t)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(delete-selection-mode nil)
- '(org-agenda-files
-   '("/home/matt/Dropbox/org/inbox.org" "/home/matt/Dropbox/org/gtd-work.org" "/home/matt/Dropbox/org/gtd-personal.org"))
  '(package-selected-packages
-   '(org-journal docker-tramp lsp-mode terraform-mode yasnippet use-package ledger-mode org-chef vterm god-mode restclient projectile magit ivy dired-single ag ace-window))
- '(send-mail-function 'smtpmail-send-it)
- '(warning-suppress-types '((comp) (comp) (comp) (comp) (comp) (comp) (comp) (comp))))
+   '(dockerfile-mode rustic yasnippet yaml-mode xterm-color vterm use-package typescript-mode toml-mode terraform-mode rust-playground rust-mode restclient org-journal neotree magit lsp-mode ledger-mode indent-tools flycheck dtrt-indent doom-modeline dired-single diminish counsel-projectile all-the-icons-dired ag ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:height 1.0))))
- '(mode-line-inactive ((t (:height 1.0)))))
-(put 'erase-buffer 'disabled nil)
+ )
+(put 'downcase-region 'disabled nil)
