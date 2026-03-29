@@ -149,6 +149,10 @@
 ;; Default fill column
 (setq-default fill-column 80)
 
+;; Remember notes
+(setq initial-buffer-choice 'remember-notes
+      remember-notes-initial-major-mode 'org-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
