@@ -68,6 +68,8 @@ else
     export VISUAL=$EDITOR
 fi
 
+export EZA_COLORS="xx=0"
+
 # Aliases
 alias ld="eza -lD"
 alias ll="eza --group-directories-first -l"
